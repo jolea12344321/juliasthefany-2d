@@ -1,23 +1,23 @@
 <?php
 include "conexao.php";
-if(isset($_POST['recados'])){
+if(isset($_POST['cadastra'])){
     $nome  = mysqli_real_escape_string($conexao, $_POST['nome']);
     $email = mysqli_real_escape_string($conexao, $_POST['email']);
-    $msg   = mysqli_real_escape_string($conexao, $_POST['mensagem']);
+    $mensagem   = mysqli_real_escape_string($conexao, $_POST['mensagem']);
 
-    $sql = "INSERT INTO recados (nome, email, mensagem) VALUES ('$nome', '$email', '$mensagem')";
+    $sql = "INSERT INTO Recados (nome, email, mensagem) VALUES ('$nome', '$email', '$mensagem')";
     mysqli_query($conexao, $sql) or die("Erro ao inserir dados: " . mysqli_error($conexao));
     header("Location: index.php");
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="utf-8"/>
 <title>Mural de pedidos</title>
 <link rel="stylesheet" href="style.css"/>
+
 <script src="scripts/jquery.js"></script>
 <script src="scripts/jquery.validate.js"></script>
 <script>
@@ -43,6 +43,7 @@ $(document).ready(function() {
 <div id="header">
     <h1>Mural de pedidos</h1>
 </div>
+<p></p>
 
 <div id="formulario_mural">
 <form id="mural" method="post">
@@ -52,15 +53,14 @@ $(document).ready(function() {
     <input type="text" name="email"/><br/>
     <label>Mensagem:</label>
     <textarea name="mensagem"></textarea><br/>
-    <input type="submit" value="Publicar no Mural" name="recados" class="btn"/>
+    <input type="submit" value="Publicar no Mural" name="cadastra" class="btn"/>
 </form>
 </div>
-
 <?php
-$seleciona = mysqli_query($conexao, "SELECT * FROM recados ORDER BY id_ DESC");
+$seleciona = mysqli_query($conexao, "SELECT * FROM recados ORDER BY id DESC");
 while($res = mysqli_fetch_assoc($seleciona)){
     echo '<ul class="recados">';
-    echo '<li><strong>ID:</strong> ' . $res['id_'] . '</li>';
+    echo '<li><strong>ID:</strong> ' . $res['id'] . '</li>';
     echo '<li><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</li>';
     echo '<li><strong>Email:</strong> ' . htmlspecialchars($res['email']) . '</li>';
     echo '<li><strong>Mensagem:</strong> ' . nl2br(htmlspecialchars($res['mensagem'])) . '</li>';

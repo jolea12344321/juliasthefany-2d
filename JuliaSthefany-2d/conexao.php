@@ -4,7 +4,7 @@
 $host    = "localhost";   // normalmente não precisa alterar
 $usuario = "root";        // substituir se seu usuário não for root
 $senha   = "";            // substituir se você tiver senha no MySQL
-$banco   = "julia_sthe";       // substituir pelo nome do seu banco criado no phpMyAdmin
+$banco   = "julia_sthefany2d";       // substituir pelo nome do seu banco criado no phpMyAdmin
 
 // Conexão MySQLi
 $conexao = mysqli_connect($host, $usuario, $senha, $banco);
@@ -16,3 +16,5 @@ if (!$conexao) {
 // SENSITIVE CASE suportar acentos e Ç
 mysqli_set_charset($conexao, "utf8");
 ?>
+
+
