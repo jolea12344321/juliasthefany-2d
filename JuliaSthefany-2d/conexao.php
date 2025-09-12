@@ -15,6 +15,14 @@ if (!$conexao) {
 
 // SENSITIVE CASE suportar acentos e Ç
 mysqli_set_charset($conexao, "utf8");
+
+// ==========================================
+// A PARTIR DAQUI, CONFIGURAÇÕES DO CLOUDINARY
+// ==========================================
+
+// Substituam os valores abaixo pelas credenciais da sua própria conta do Cloudinary
+$cloud_name = "deh0x0mhs";  // exemplo: "meucloud123"
+$api_key    = "945565348264774";     // exemplo: "123456789012345"
+$api_secret = "Ol7pF_EcfrThOwSSzxJtumRH8lo";  // exemplo: "abcdeFGHijkLMNopqrstu"
+
 ?>
-
-

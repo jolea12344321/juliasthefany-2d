@@ -23,8 +23,8 @@ body {
     background-size: cover;
     text-align: center;
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente */
+    justify-content: center; 
+    align-items: center;    
     height: 100vh;
 
 }
@@ -103,7 +103,6 @@ body {
     line-height: 1.6;
 }
 
-/* Rodapé */
 #footer {
     background-color: #f603b9;
     color: #f175dc;
