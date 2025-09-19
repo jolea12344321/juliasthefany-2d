@@ -47,14 +47,14 @@ if(isset($_POST['cadastra'])){
     // Inserindo no banco de dados
     // ==========================
     if($imagem_url != ""){
-        $sql = "INSERT INTO (nome, descricao, preco, imagem_url) VALUES ('$nome', '$descricao', $preco, '$imagem_url')";
+        $sql = "INSERT INTO produtos (nome, descricao, preco, imagem_url) VALUES ('$nome', '$descricao', $preco, '$imagem_url')";
         mysqli_query($conexao, $sql) or die("Erro ao inserir: " . mysqli_error($conexao));
     }
 
     // ==========================
     // REDIRECIONAMENTO
     // ==========================
-    header("Location: mural.php");
+    header("Location: index.php");
     exit;
 }
 
