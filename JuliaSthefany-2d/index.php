@@ -27,7 +27,7 @@ if(isset($_POST['cadastra'])){
         ];
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$deh0x0mhs/image/upload");
+        curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/deh0x0mhs/image/upload");
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -47,7 +47,7 @@ if(isset($_POST['cadastra'])){
     // Inserindo no banco de dados
     // ==========================
     if($imagem_url != ""){
-        $sql = "INSERT INTO MUDAR_PRA_SUA (nome, descricao, preco, imagem_url) VALUES ('$nome', '$descricao', $preco, '$imagem_url')";
+        $sql = "INSERT INTO (nome, descricao, preco, imagem_url) VALUES ('$nome', '$descricao', $preco, '$imagem_url')";
         mysqli_query($conexao, $sql) or die("Erro ao inserir: " . mysqli_error($conexao));
     }
 
@@ -99,7 +99,7 @@ if(isset($_POST['cadastra'])){
         $seleciona = mysqli_query($conexao, "SELECT * FROM produtos ORDER BY id DESC");
         while($res = mysqli_fetch_assoc($seleciona)){
             echo '<div class="produto">';
-            echo '<p><strong>ID:</strong> ' . $res['id'] . '</p>';
+            echo '<p><strong>ID:</strong> ' . $res['ID'] . '</p>';
             echo '<p><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</p>';
             echo '<p><strong>Preço:</strong> R$ ' . number_format($res['preco'], 2, ',', '.') . '</p>';
             echo '<p><strong>Descrição:</strong> ' . nl2br(htmlspecialchars($res['descricao'])) . '</p>';
@@ -117,4 +117,4 @@ if(isset($_POST['cadastra'])){
     </div>
 </div>
 </body>
-</html>      
+</html> 

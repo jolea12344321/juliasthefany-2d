@@ -1,5 +1,6 @@
 <?php
-include "conexao.php";
+include "conexao.php"; // conexão com MySQL + variáveis do Cloudinary
+
 // Função para deletar imagem do Cloudinary
 function deletarImagemCloudinary($public_id, $cloud_name, $api_key, $api_secret) {
     $timestamp = time();
@@ -12,8 +13,9 @@ function deletarImagemCloudinary($public_id, $cloud_name, $api_key, $api_secret)
         'api_key' => $api_key,
         'signature' => $signature
     ];
+
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloud_name/image/destroy");
+    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$deh0x0mhs/image/destroy");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -22,6 +24,15 @@ function deletarImagemCloudinary($public_id, $cloud_name, $api_key, $api_secret)
 
     return json_decode($response, true);
 }
+
+/*
+COMPARAÇÃO: No código de recados/pedidos
+- Não há função de deletar arquivos
+- Não existe upload de imagem
+- Apenas se deleta o registro do banco
+*/
+
+// Excluir produto
 if(isset($_GET['excluir'])) {
     $id = intval($_GET['excluir']);
     $res = mysqli_query($conexao, "SELECT imagem_url FROM produtos WHERE id = $id");
@@ -39,6 +50,14 @@ if(isset($_GET['excluir'])) {
     header("Location: moderar.php"); //substituir se estiver diferente
     exit;
 }
+
+/*
+COMPARAÇÃO:
+- Código de recados/pedidos: deletar não manipula imagens, só remove o registro
+- Aqui é necessário deletar a imagem no Cloudinary antes de excluir do banco
+*/
+
+// Editar produto
 if(isset($_POST['editar'])) {
     $id = intval($_POST['id']);
     $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
@@ -50,8 +69,23 @@ if(isset($_POST['editar'])) {
     header("Location: moderar.php");
     exit;
 }
+
+/*
+COMPARAÇÃO:
+- Código de recados/pedidos: não há edição inline
+- Aqui o sistema permite editar nome, descrição e preço, mas não imagem
+*/
+
+
+// Selecionar produtos para exibição
 $editar_id = isset($_GET['editar']) ? intval($_GET['editar']) : 0;
 $produtos = mysqli_query($conexao, "SELECT * FROM produtos ORDER BY id DESC");
+
+/*
+COMPARAÇÃO:
+- Código de recados/pedidos: SELECT * FROM recados ORDER BY id DESC
+- Aqui seleciona produtos com imagens e preço
+*/
 ?>
 
 <!DOCTYPE html>
@@ -71,19 +105,19 @@ $produtos = mysqli_query($conexao, "SELECT * FROM produtos ORDER BY id DESC");
         <div class="produtos-container">
             <?php while($res = mysqli_fetch_assoc($produtos)): ?>
                 <div class="produto">
-                    <p><strong>ID:</strong> <?= $res['id'] ?></p>
+                    <p><strong>ID:</strong> <?= $res['ID'] ?></p>
                     <p><strong>Nome:</strong> <?= htmlspecialchars($res['nome']) ?></p>
                     <p><strong>Preço:</strong> R$ <?= number_format($res['preco'], 2, ',', '.') ?></p>
                     <p><strong>Descrição:</strong> <?= nl2br(htmlspecialchars($res['descricao'])) ?></p>
                     <p><img src="<?= htmlspecialchars($res['imagem_url']) ?>" alt="<?= htmlspecialchars($res['nome']) ?>"></p>
 
                     <!-- Link para excluir -->
-                    <a href="moderar.php?excluir=<?= $res['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                    <a href="moderar.php?excluir=<?= $res['ID'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
 
                     <!-- Formulário de edição inline -->
-                    <?php if($editar_id == $res['id']): ?>
+                    <?php if($editar_id == $res['ID']): ?>
                         <form method="post" action="moderar.php">
-                            <input type="hidden" name="id" value="<?= $res['id'] ?>">
+                            <input type="hidden" name="id" value="<?= $res['ID'] ?>">
                             <input type="text" name="nome" value="<?= htmlspecialchars($res['nome']) ?>" required><br>
                             <textarea name="descricao" required><?= htmlspecialchars($res['descricao']) ?></textarea><br>
                             <input type="number" step="0.01" name="preco" value="<?= $res['preco'] ?>" required><br>
@@ -91,7 +125,7 @@ $produtos = mysqli_query($conexao, "SELECT * FROM produtos ORDER BY id DESC");
                             <a href="moderar.php">Cancelar</a>
                         </form>
                     <?php else: ?>
-                        <a href="moderar.php?editar=<?= $res['id'] ?>">Editar</a>
+                        <a href="moderar.php?editar=<?= $res['ID'] ?>">Editar</a>
                     <?php endif; ?>
                 </div>
             <?php endwhile; ?>
