@@ -112,7 +112,7 @@ COMPARAÇÃO:
                     <p><img src="<?= htmlspecialchars($res['imagem_url']) ?>" alt="<?= htmlspecialchars($res['nome']) ?>"></p>
 
                     <!-- Link para excluir -->
-                    <a href="moderar.php?excluir=<?= $res['ID'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                    <a href="index.php?excluir=<?= $res['ID'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
 
                     <!-- Formulário de edição inline -->
                     <?php if($editar_id == $res['ID']): ?>
